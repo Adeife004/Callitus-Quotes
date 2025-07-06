@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rev. Fr. Callistus Osiga Foundation - Inspirational Quotes</title>
+    <link rel="shortcut icon" href="./asset/Callistus-image.jpg" type="image/x-icon">
+   <!-- css link -->
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="bouncing-emojis">
+            <div class="emoji">💰</div>
+            <div class="emoji">🤝</div>
+            <div class="emoji">❤️</div>
+            <div class="emoji">🎁</div>
+            <div class="emoji">🌟</div>
+            <div class="emoji">🙏</div>
+        </div>
+
+        <div class="header">
+            <div class="logo"></div>
+            <h1 class="foundation-name">REV. FR. CALLISTUS OSIGA FOUNDATION</h1>
+            <p class="tagline">...you too can be kind</p>
+        </div>
+
+        <div class="quote-section">
+            <div class="quote-text" id="quote-text">
+                The measure of a life is not its duration, but its donation.
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="newQuote()">
+                🔄 New Quote
+            </button>
+            <button class="btn btn-language" onclick="toggleLanguage()" id="language-btn">
+                🌍 Switch to Pidgin
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const quotes = {
+            english: [
+                "The measure of a life is not its duration, but its donation.",
+                "No one has ever become poor by giving.",
+                "We make a living by what we get, but we make a life by what we give.",
+                "The best way to find yourself is to lose yourself in the service of others.",
+                "Kindness is a language which the deaf can hear and the blind can see.",
+                "The meaning of life is to find your gift. The purpose of life is to give it away.",
+                "What we do for ourselves dies with us. What we do for others and the world remains.",
+                "The fragrance always remains in the hand that gives the rose.",
+                "A generous heart, kind speech, and a life of service are the things which renew humanity.",
+                "Give, and it will be given to you. A good measure, pressed down, shaken together and running over.",
+                "The wise person does not accumulate wealth, but rather helps others. The more you help, the more you have.",
+                "Remember, it is more blessed to give than to receive.",
+                "We rise by lifting others up.",
+                "The poor man is not he who has little, but he who needs more.",
+                "Money is like manure; it's not worth a thing unless it's spread around encouraging young things to grow."
+            ],
+            pidgin: [
+                "Na how you give, no be how long you live na im matter pass.",
+                "Nobody ever become poor because e dey give people.",
+                "We dey make living from wetin we get, but we dey make life from wetin we give.",
+                "The best way to find yourself na to lose yourself for service of others.",
+                "Kindness na language wey deaf person fit hear and blind person fit see.",
+                "The meaning of life na to find your gift. The purpose of life na to give am away.",
+                "Wetin we do for ourselves go die with us. Wetin we do for others and the world go remain.",
+                "The sweet smell always dey remain for hand wey give the rose.",
+                "Generous heart, kind speech, and life of service na the things wey dey renew humanity.",
+                "Give, and dem go give you. Good measure, pressed down, shaken together and running over.",
+                "The wise person no dey accumulate wealth, but rather dey help others. The more you help, the more you get.",
+                "Remember, e better to give than to receive.",
+                "We dey rise by lifting others up.",
+                "The poor man no be person wey get small thing, but person wey need more.",
+                "Money be like manure; e no worth anything unless you spread am around to encourage young things to grow."
+            ]
+        };
+
+        let currentLanguage = 'english';
+        let currentQuoteIndex = 0;
+
+        function newQuote() {
+            const quoteText = document.getElementById('quote-text');
+            const quotes_array = quotes[currentLanguage];
+
+            // Get a random quote different from current one
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * quotes_array.length);
+            } while (newIndex === currentQuoteIndex && quotes_array.length > 1);
+
+            currentQuoteIndex = newIndex;
+
+            // Add fade effect
+            quoteText.classList.remove('fade-in');
+            setTimeout(() => {
+                quoteText.textContent = quotes_array[currentQuoteIndex];
+                quoteText.classList.add('fade-in');
+            }, 100);
+        }
+
+        function toggleLanguage() {
+            const languageBtn = document.getElementById('language-btn');
+            const quoteText = document.getElementById('quote-text');
+
+            if (currentLanguage === 'english') {
+                currentLanguage = 'pidgin';
+                languageBtn.textContent = '🌍 Switch to English';
+            } else {
+                currentLanguage = 'english';
+                languageBtn.textContent = '🌍 Switch to Pidgin';
+            }
+
+            // Update quote with new language
+            quoteText.classList.remove('fade-in');
+            setTimeout(() => {
+                quoteText.textContent = quotes[currentLanguage][currentQuoteIndex];
+                quoteText.classList.add('fade-in');
+            }, 100);
+        }
+
+        // Initialize with first quote
+        document.addEventListener('DOMContentLoaded', function () {
+            newQuote();
+        });
+    </script>
+</body>
+
+</html>
