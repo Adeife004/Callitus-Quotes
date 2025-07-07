@@ -234,11 +234,12 @@ function createQuoteImage(currentQuote, foundationName) {
         canvas.width = 1200;
         canvas.height = 800;
         
-        // Create animated gradient background (matching website)
-        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-        gradient.addColorStop(0, '#FFD700');
-        gradient.addColorStop(0.5, '#FF8C00');
-        gradient.addColorStop(1, '#FFA500');
+        // Create static version of the website's animated gradient background
+        // (linear-gradient(135deg, #2193b0, #6dd5ed, #00c6fb))
+        const gradient = ctx.createLinearGradient(0, canvas.height, canvas.width, 0); // 135deg
+        gradient.addColorStop(0, '#2193b0');
+        gradient.addColorStop(0.5, '#6dd5ed');
+        gradient.addColorStop(1, '#00c6fb');
         
         // Fill background
         ctx.fillStyle = gradient;
@@ -263,93 +264,118 @@ function createQuoteImage(currentQuote, foundationName) {
             ctx.fillText(emoji, x, y);
         });
         
-        // Load and add the actual logo image
-        const logoImg = new Image();
-        logoImg.crossOrigin = 'anonymous';
-        logoImg.onload = function() {
-            // Add foundation logo at the top
-            const logoSize = 80;
-            const logoX = canvas.width / 2 - logoSize / 2;
-            const logoY = 50;
-            
-            // Create circular clip for logo
+        // --- Draw bouncing emojis in the background (like .bouncing-emojis) ---
+        const emojiList = ['💰', '🤝', '❤️', '🎁', '🌟', '🙏'];
+        const emojiPositions = [
+            { x: 120, y: 100, size: 60, opacity: 0.6 },
+            { x: 1080, y: 120, size: 60, opacity: 0.6 },
+            { x: 200, y: 700, size: 60, opacity: 0.6 },
+            { x: 1000, y: 650, size: 60, opacity: 0.6 },
+            { x: 600, y: 80, size: 60, opacity: 0.6 },
+            { x: 600, y: 750, size: 60, opacity: 0.6 },
+        ];
+        emojiList.forEach((emoji, i) => {
             ctx.save();
-            ctx.beginPath();
-            ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
-            ctx.clip();
-            
-            // Draw the actual logo image
+            ctx.globalAlpha = emojiPositions[i].opacity;
+            ctx.font = `${emojiPositions[i].size}px Arial, sans-serif`;
+            ctx.fillText(emoji, emojiPositions[i].x, emojiPositions[i].y);
+            ctx.restore();
+        });
+        
+        // --- Draw logo in a circular container with blue radial gradient and white border ---
+        const logoSize = 120;
+        const logoX = canvas.width / 2 - logoSize / 2;
+        const logoY = 60;
+        // Draw blue radial gradient circle
+        const grad = ctx.createRadialGradient(
+            logoX + logoSize / 2, logoY + logoSize / 2, 10,
+            logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2
+        );
+        grad.addColorStop(0, '#6dd5ed');
+        grad.addColorStop(1, '#2193b0');
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+        // Draw white border
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+        ctx.stroke();
+        ctx.clip();
+        // Draw logo image
+        const logoImg = new window.Image();
+        logoImg.onload = function() {
             ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize);
             ctx.restore();
-            
-            // Add logo border
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
-            ctx.stroke();
-            
-            // Add logo shadow
-            ctx.shadowColor = 'rgba(255, 215, 0, 0.4)';
-            ctx.shadowBlur = 20;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            
-            // Create glass morphism container (matching website design) - MOVED TO CENTER
-            const containerX = 100;
-            const containerY = 250; // Moved down to center more
-            const containerWidth = canvas.width - 200;
-            const containerHeight = 300; // Reduced height for better centering
-            
-            // Glass morphism background
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-            ctx.beginPath();
-            ctx.roundRect(containerX, containerY, containerWidth, containerHeight, 25);
-            ctx.fill();
-            
-            // Glass morphism border
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.roundRect(containerX, containerY, containerWidth, containerHeight, 25);
-            ctx.stroke();
-            
-            // Add subtle blur effect (simulated)
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.1)';
-            ctx.shadowBlur = 20;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            
-            // Add foundation name below logo
-            ctx.fillStyle = '#FFD700';
-            ctx.font = 'bold 28px Arial, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-            ctx.shadowBlur = 2;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
-            ctx.fillText('REV. FR. CALLISTUS OSIGA FOUNDATION', canvas.width / 2, logoY + logoSize + 40);
-            
-            ctx.fillStyle = '#FFFFFF';
-            ctx.font = 'italic 18px Arial, sans-serif';
-            ctx.fillText('...you too can be kind', canvas.width / 2, logoY + logoSize + 65);
-            
-            // Add quote text with glass morphism styling
-            ctx.fillStyle = '#2C3E50';
-            ctx.font = 'bold 32px Arial, sans-serif';
+            drawFoundationTextAndQuote();
+        };
+        logoImg.onerror = function() {
+            ctx.restore();
+            // fallback: draw initials
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 48px Segoe UI, Arial, sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+            ctx.fillText('CF', logoX + logoSize / 2, logoY + logoSize / 2);
+            drawFoundationTextAndQuote();
+        };
+        logoImg.src = './asset/Callistus-image.jpg';
+        // --- Draw foundation name and tagline below logo, then quote in glass morphism container ---
+        function drawFoundationTextAndQuote() {
+            // Foundation name
+            ctx.save();
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.font = 'bold 36px Segoe UI, Arial, sans-serif';
+            ctx.fillStyle = '#2193b0';
+            ctx.shadowColor = 'rgba(0,0,0,0.4)';
+            ctx.shadowBlur = 4;
+            ctx.fillText('REV. FR. CALLISTUS OSIGA FOUNDATION', canvas.width / 2, logoY + logoSize + 20);
+            // Tagline
+            ctx.font = 'italic 22px Segoe UI, Arial, sans-serif';
+            ctx.fillStyle = '#fff';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = 2;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
-            
-            // Word wrap function
+            ctx.fillText('...you too can be kind', canvas.width / 2, logoY + logoSize + 60);
+            ctx.restore();
+            // --- Glass morphism quote container ---
+            const containerX = 120;
+            const containerY = 250;
+            const containerWidth = canvas.width - 240;
+            const containerHeight = 320;
+            // Glass background
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(containerX, containerY, containerWidth, containerHeight, 25);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(255,255,255,0.18)';
+            ctx.fill();
+            // Border
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(33,147,176,0.25)';
+            ctx.stroke();
+            // Box shadow (simulate)
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 32;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 8;
+            ctx.stroke();
+            ctx.restore();
+            // --- Quote text ---
+            ctx.save();
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            ctx.font = '500 32px Segoe UI, Arial, sans-serif';
+            ctx.fillStyle = '#2C3E50';
+            ctx.shadowColor = 'rgba(255,255,255,0.9)';
+            ctx.shadowBlur = 2;
+            // Word wrap
             function wrapText(ctx, text, maxWidth) {
                 const words = text.split(' ');
                 const lines = [];
                 let currentLine = words[0];
-                
                 for (let i = 1; i < words.length; i++) {
                     const word = words[i];
                     const width = ctx.measureText(currentLine + ' ' + word).width;
@@ -363,88 +389,33 @@ function createQuoteImage(currentQuote, foundationName) {
                 lines.push(currentLine);
                 return lines;
             }
-            
-            const wrappedQuote = wrapText(ctx, currentQuote.text, containerWidth - 100);
-            const lineHeight = 45;
-            const quoteStartY = containerY + (containerHeight - (wrappedQuote.length * lineHeight) - 60) / 2;
-            
-            wrappedQuote.forEach((line, index) => {
-                ctx.fillText(line, canvas.width / 2, quoteStartY + (index * lineHeight));
+            const wrappedQuote = wrapText(ctx, currentQuote.text, containerWidth - 80);
+            const lineHeight = 48;
+            const quoteStartY = containerY + 50;
+            wrappedQuote.forEach((line, i) => {
+                ctx.fillText(line, canvas.width / 2, quoteStartY + i * lineHeight);
             });
-            
-            // Add author name with glass morphism styling
-            ctx.fillStyle = '#FFD700';
-            ctx.font = 'bold 24px Arial, sans-serif';
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+            // Author
+            ctx.font = 'italic 24px Segoe UI, Arial, sans-serif';
+            ctx.fillStyle = '#2193b0';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
             ctx.shadowBlur = 2;
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
-            ctx.fillText(`— ${currentQuote.author}`, canvas.width / 2, quoteStartY + (wrappedQuote.length * lineHeight) + 30);
-            
-            // Add decorative quote marks
-            ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
-            ctx.font = 'bold 80px Arial, sans-serif';
+            ctx.fillText(`— ${currentQuote.author}`, canvas.width / 2, quoteStartY + wrappedQuote.length * lineHeight + 20);
+            ctx.restore();
+            // --- Website URL at bottom ---
+            ctx.save();
+            ctx.font = '16px Segoe UI, Arial, sans-serif';
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
             ctx.shadowBlur = 0;
-            ctx.fillText('"', containerX + 50, quoteStartY + 40);
-            ctx.fillText('"', containerX + containerWidth - 50, quoteStartY + (wrappedQuote.length * lineHeight) - 20);
-            
-            // Add subtle glass morphism highlights
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx.beginPath();
-            ctx.ellipse(containerX + 50, containerY + 50, 30, 20, 0, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.beginPath();
-            ctx.ellipse(containerX + containerWidth - 50, containerY + containerHeight - 50, 40, 25, 0, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Add website URL at bottom
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-            ctx.font = '16px Arial, sans-serif';
-            ctx.shadowBlur = 0;
+            ctx.textAlign = 'center';
             ctx.fillText('callistusfoundation.org', canvas.width / 2, canvas.height - 30);
-            
-            // Convert canvas to blob and share
+            ctx.restore();
+            // --- Done, share image ---
             canvas.toBlob((blob) => {
                 shareImageWithNativeAPI(blob, currentQuote, foundationName);
             }, 'image/png');
-        };
-        
-        // Handle logo loading error
-        logoImg.onerror = function() {
-            console.error('Failed to load logo image');
-            // Fallback to text-based logo
-            const logoSize = 80;
-            const logoX = canvas.width / 2 - logoSize / 2;
-            const logoY = 50;
-            
-            // Create logo background (circular like website)
-            ctx.fillStyle = 'radial-gradient(circle, #FFD700, #FF8C00)';
-            ctx.beginPath();
-            ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Add logo border
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(logoX + logoSize / 2, logoY + logoSize / 2, logoSize / 2, 0, Math.PI * 2);
-            ctx.stroke();
-            
-            // Add foundation initials as fallback
-            ctx.fillStyle = '#2C3E50';
-            ctx.font = 'bold 24px Arial, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('CF', logoX + logoSize / 2, logoY + logoSize / 2);
-            
-            // Continue with the rest of the image generation...
-            // (Same code as above for the rest of the image)
-        };
-        
-        // Load the logo image
-        logoImg.src = './asset/Callistus-image.jpg';
-        
+        }
+        return; // prevent old logo code from running
     } catch (error) {
         console.error('Error creating image:', error);
         showShareMenu(currentQuote, foundationName);
