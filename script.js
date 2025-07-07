@@ -43,7 +43,7 @@ const quotes = {
         { text: "The best and most beautiful things for this world no fit see or even touch. Dem must feel with heart.", author: "Helen Keller" },
         { text: "Happiness no dey come from wetin we get, but from wetin we give.", author: "Ben Carson" },
         { text: "The purpose of life no be to be happy. Na to be useful, to be honorable, to be compassionate, to make some difference say you don live and live well.", author: "Ralph Waldo Emerson" }
-    ]
+    ] 
 };
 
 // Application state
@@ -208,12 +208,7 @@ function switchLanguage() {
 
 // Share quote on social media
 function shareCurrentQuote() {
-    console.log('Share function called'); // Debug log
-    
-    if (isAnimating) {
-        console.log('Animation in progress, cannot share');
-        return;
-    }
+    if (isAnimating) return;
     
     const currentQuote = quotes[currentLanguage][currentQuoteIndex];
     const foundationName = "Rev. Fr. Callistus Osiga Foundation";
@@ -350,7 +345,7 @@ function createQuoteImage(currentQuote, foundationName) {
             ctx.shadowOffsetY = 1;
             
             // Word wrap function
-            function wrapText(text, maxWidth) {
+            function wrapText(ctx, text, maxWidth) {
                 const words = text.split(' ');
                 const lines = [];
                 let currentLine = words[0];
@@ -369,7 +364,7 @@ function createQuoteImage(currentQuote, foundationName) {
                 return lines;
             }
             
-            const wrappedQuote = wrapText(currentQuote.text, containerWidth - 100);
+            const wrappedQuote = wrapText(ctx, currentQuote.text, containerWidth - 100);
             const lineHeight = 45;
             const quoteStartY = containerY + (containerHeight - (wrappedQuote.length * lineHeight) - 60) / 2;
             

@@ -6,12 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rev. Fr. Callistus Osiga Foundation - Inspirational Quotes</title>
     <link rel="shortcut icon" href="./asset/Callistus-image.jpg" type="image/x-icon">
-   <!-- css link -->
+    <!-- Open Graph & Twitter Card meta tags for social sharing -->
+    <meta property="og:title" content="Rev. Fr. Callistus Osiga Foundation - Inspirational Quotes">
+    <meta property="og:description"
+        content="Daily inspirational quotes in English and Pidgin from the Rev. Fr. Callistus Osiga Foundation. ...you too can be kind.">
+    <meta property="og:image" content="./asset/Callistus-image.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://callistusfoundation.org/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rev. Fr. Callistus Osiga Foundation - Inspirational Quotes">
+    <meta name="twitter:description"
+        content="Daily inspirational quotes in English and Pidgin from the Rev. Fr. Callistus Osiga Foundation. ...you too can be kind.">
+    <meta name="twitter:image" content="./asset/Callistus-image.jpg">
+    <meta name="twitter:image:alt" content="Callistus Foundation Logo">
+    <!-- CSS Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Main container for the glass morphism effect and all content -->
     <div class="container">
+        <!-- Animated background emojis -->
         <div class="bouncing-emojis">
             <div class="emoji">💰</div>
             <div class="emoji">🤝</div>
@@ -21,6 +36,7 @@
             <div class="emoji">🙏</div>
         </div>
 
+        <!-- Header with logo, foundation name, and tagline -->
         <div class="header">
             <div class="logo">
                 <img src="./asset/Callistus-image.jpg" alt="Callistus Foundation Logo" class="logo-image">
@@ -29,12 +45,14 @@
             <p class="tagline">...you too can be kind</p>
         </div>
 
+        <!-- Quote section -->
         <div class="quote-section">
             <div class="quote-text" id="quote-text">
                 The measure of a life is not its duration, but its donation.
             </div>
         </div>
 
+        <!-- Controls: New Quote, Language Toggle, Share -->
         <div class="controls">
             <button class="btn btn-primary" onclick="newQuote()">
                 🔄 New Quote
@@ -56,12 +74,12 @@
             console.log('Test share function called');
             alert('Share button is working!');
         }
-        
+
         // Add click event listener as backup
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const shareBtn = document.getElementById('share-btn');
             if (shareBtn) {
-                shareBtn.addEventListener('click', function() {
+                shareBtn.addEventListener('click', function () {
                     console.log('Share button clicked via event listener');
                     shareQuote();
                 });

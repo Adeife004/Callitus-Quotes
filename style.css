@@ -7,7 +7,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
-    background: linear-gradient(135deg, #FFD700, #FF8C00, #FFA500);
+    background: linear-gradient(135deg, #2193b0, #6dd5ed, #00c6fb);
     background-size: 400% 400%;
     animation: gradientShift 15s ease infinite;
 }
@@ -21,10 +21,10 @@ body {
 .container {
     max-width: 700px;
     width: 100%;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(18px);
+    border: 2px solid rgba(33, 147, 176, 0.25);
     border-radius: 25px;
-    border: 2px solid rgba(255, 215, 0, 0.3);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     padding: 40px;
     justify-self: center;
@@ -38,15 +38,15 @@ body {
 }
 
 .logo {
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
     margin: 0 auto 20px;
-    background: radial-gradient(circle, #FFD700, #FF8C00);
+    background: radial-gradient(circle, #2193b0, #6dd5ed);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 4px 20px rgba(33, 147, 176, 0.25);
     position: relative;
     overflow: hidden;
     border: 3px solid rgba(255, 255, 255, 0.3);
@@ -74,8 +74,8 @@ body {
 .foundation-name {
     font-size: 1.8rem;
     font-weight: bold;
-    color: #FFD700;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #2193b0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
     margin-bottom: 10px;
 }
 
@@ -87,12 +87,12 @@ body {
 }
 
 .quote-section {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(15px);
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(18px);
     border-radius: 20px;
     padding: 30px;
     margin: 30px 0;
-    border: 2px solid rgba(255, 215, 0, 0.3);
+    border: 2px solid rgba(33, 147, 176, 0.18);
     position: relative;
     overflow: hidden;
 }
@@ -123,7 +123,7 @@ body {
 
 .quote-author {
     font-size: 1rem;
-    color: #FFD700;
+    color: #2193b0;
     font-weight: 600;
     font-style: italic;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
@@ -153,27 +153,27 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(45deg, #FFD700, #FF8C00);
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #2193b0, #6dd5ed);
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
-    background: linear-gradient(45deg, #4CAF50, #2E7D32);
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #00c6fb, #2193b0);
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .btn-language {
-    background: linear-gradient(45deg, #2196F3, #0D47A1);
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #6dd5ed, #2193b0);
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .btn-share {
-    background: linear-gradient(45deg, #9C27B0, #673AB7);
-    color: white;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #00c6fb, #2193b0);
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .btn:hover {
@@ -313,7 +313,7 @@ body {
 }
 
 .share-menu-content {
-    background: linear-gradient(135deg, #FFD700, #FF8C00);
+    background: linear-gradient(135deg, #2193b0, #6dd5ed);
     padding: 30px;
     border-radius: 20px;
     text-align: center;
@@ -373,7 +373,7 @@ body {
     padding: 12px 25px;
     border: none;
     border-radius: 25px;
-    background: linear-gradient(45deg, #FFD700, #FF8C00);
+    background: linear-gradient(45deg, #2193b0, #6dd5ed);
     color: white;
     font-weight: bold;
     cursor: pointer;
@@ -414,8 +414,8 @@ body {
     }
 
     .logo {
-        width: 100px;
-        height: 100px;
+        width: 140px;
+        height: 140px;
     }
 
     .logo::before {
@@ -453,6 +453,11 @@ body {
     .share-menu-content {
         padding: 20px;
         margin: 20px;
+    }
+
+    .logo {
+        width: 100px;
+        height: 100px;
     }
 }
 
