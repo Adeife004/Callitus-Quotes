@@ -283,7 +283,7 @@ function createQuoteImage(currentQuote, foundationName) {
         });
         
         // --- Draw logo in a circular container with blue radial gradient and white border ---
-        const logoSize = 120;
+        const logoSize = 150; // Increased from 120
         const logoX = canvas.width / 2 - logoSize / 2;
         const logoY = 60;
         // Draw blue radial gradient circle
@@ -342,7 +342,7 @@ function createQuoteImage(currentQuote, foundationName) {
             ctx.restore();
             // --- Glass morphism quote container ---
             const containerX = 120;
-            const containerY = 250;
+            const containerY = logoY + logoSize + 100; // Move further down below tagline
             const containerWidth = canvas.width - 240;
             const containerHeight = 320;
             // Glass background
