@@ -211,7 +211,7 @@ function shareCurrentQuote() {
     if (isAnimating) return;
     
     const currentQuote = quotes[currentLanguage][currentQuoteIndex];
-    const foundationName = "Rev. Fr. Callistus Osiga Foundation";
+    const foundationName = "Rev. Fr. Callistus Osiaga Foundation";
     
     // Create the quote image
     createQuoteImage(currentQuote, foundationName);
@@ -332,7 +332,7 @@ function createQuoteImage(currentQuote, foundationName) {
             ctx.fillStyle = '#2193b0';
             ctx.shadowColor = 'rgba(0,0,0,0.4)';
             ctx.shadowBlur = 4;
-            ctx.fillText('REV. FR. CALLISTUS OSIGA FOUNDATION', canvas.width / 2, logoY + logoSize + 20);
+            ctx.fillText('REV. FR. CALLISTUS OSIAGA FOUNDATION', canvas.width / 2, logoY + logoSize + 20);
             // Tagline
             ctx.font = 'italic 22px Segoe UI, Arial, sans-serif';
             ctx.fillStyle = '#fff';
